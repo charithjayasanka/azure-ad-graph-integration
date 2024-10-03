@@ -17,7 +17,6 @@
 - [Logging and Debugging](#logging-and-debugging)
 - [Error Handling](#error-handling)
 - [Contributing](#contributing)
-- [License](#license)
 - [Contact](#contact)
 
 ## Introduction
@@ -53,8 +52,8 @@ Ensure you have the following before building and running the application:
 ### Clone the Repository
 
 ```bash
-git clone https://github.com/yourusername/GraphSample.git
-cd GraphSample
+git clone https://github.com/charithjayasanka/azure-ad-graph-integration.git
+cd azure-ad-graph-integration
 ```
 
 ### Build the Project
@@ -161,10 +160,6 @@ Contributions are welcome! If you have suggestions or want to add new features, 
 3. Make your changes and commit them with descriptive messages.
 4. Push to your forked repository: `git push origin feature-name`.
 5. Create a pull request on the main repository.
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## Contact
 
