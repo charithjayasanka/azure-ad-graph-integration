@@ -1,6 +1,8 @@
 package com.azuread.charith;
 
 import com.azure.identity.DeviceCodeInfo;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.microsoft.aad.msal4j.ClientCredentialFactory;
 import com.microsoft.aad.msal4j.ClientCredentialParameters;
 import com.microsoft.aad.msal4j.ConfidentialClientApplication;
@@ -129,7 +131,10 @@ public class AzureApp {
             System.out.println("HTTP request executed. Checking response...");
             if (response.isSuccessful()) {
                 String responseBody = response.body().string();
-                System.out.println("User found: " + responseBody);
+                System.out.println("Response received: " + responseBody);
+
+                // Handle the response and check if the user is found
+                handleUserResponse(responseBody);
             } else {
                 System.out.println("Failed to retrieve user. HTTP response code: " + response.code());
                 System.out.println("Response message: " + response.message());
@@ -139,6 +144,31 @@ public class AzureApp {
             e.printStackTrace();
         } catch (IOException e) {
             System.out.println("IO Exception while querying user");
+            e.printStackTrace();
+        }
+    }
+
+    private static void handleUserResponse(String jsonResponse) {
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            JsonNode rootNode = objectMapper.readTree(jsonResponse);
+
+            // Get the value array node
+            JsonNode valueNode = rootNode.path("value");
+
+            if (valueNode.isArray() && valueNode.size() == 0) {
+                System.out.println("User not found.");
+            } else if (valueNode.isArray() && valueNode.size() > 0) {
+                System.out.println("User found. Number of users: " + valueNode.size());
+                for (JsonNode userNode : valueNode) {
+                    System.out.println("User: " + userNode.path("displayName").asText() +
+                            ", UserPrincipalName: " + userNode.path("userPrincipalName").asText());
+                }
+            } else {
+                System.out.println("Unexpected response format.");
+            }
+        } catch (IOException e) {
+            System.out.println("Failed to parse JSON response.");
             e.printStackTrace();
         }
     }
