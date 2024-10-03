@@ -1,7 +1,6 @@
 
 # Azure AD Integration with Microsoft Graph
 
-[![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![Java](https://img.shields.io/badge/Java-8%2B-brightgreen.svg)](https://www.oracle.com/java/technologies/javase-jdk8-downloads.html)
 [![Azure AD](https://img.shields.io/badge/Azure%20AD-Integration-orange.svg)](https://azure.microsoft.com/en-us/services/active-directory/)
 [![Microsoft Graph](https://img.shields.io/badge/Microsoft%20Graph-Integration-blue.svg)](https://developer.microsoft.com/en-us/graph/)
