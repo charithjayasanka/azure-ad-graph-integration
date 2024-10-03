@@ -13,6 +13,7 @@
 - [Configuration](#configuration)
 - [Running the Application](#running-the-application)
 - [Building the Project](#building-the-project)
+- [Testing with Curl](#testing-with-curl)
 - [Logging and Debugging](#logging-and-debugging)
 - [Error Handling](#error-handling)
 - [Contributing](#contributing)
@@ -125,6 +126,67 @@ mvn package
 ```
 
 This command will create a shaded JAR file in the `target` directory named `GraphSample-1.0-SNAPSHOT.jar`, which you can run as an executable JAR.
+
+
+## Testing with Curl
+
+You can test the authentication and Microsoft Graph API interactions using the following `curl` commands:
+
+### Step 1: Acquire Access Token
+
+```bash
+curl -X POST https://login.microsoftonline.com/<tenant-id>/oauth2/v2.0/token \
+-H "Content-Type: application/x-www-form-urlencoded" \
+-d "client_id=<client-id>" \
+-d "scope=https%3A%2F%2Fgraph.microsoft.com%2F.default" \
+-d "client_secret=<client-secret>" \
+-d "grant_type=client_credentials"
+```
+
+### Step 2: Query User by `mailNickname`
+
+```bash
+curl -X GET "https://graph.microsoft.com/v1.0/users?\$filter=mailNickname eq '<nickname>'" \
+-H "Authorization: Bearer <access_token>"
+```
+
+Replace `<tenant-id>`, `<client-id>`, `<client-secret>`, and `<nickname>` with your actual Azure AD values. Use the access token obtained from Step 1 in the `Authorization` header in Step 2.
+
+### Example JSON Responses
+
+- **Access Token Response:**
+
+```json
+{
+  "token_type": "Bearer",
+  "expires_in": 3599,
+  "ext_expires_in": 3599,
+  "access_token": "eyJ0eXAiOiJKV1QiLCJ..."
+}
+```
+
+- **User Query Response:**
+
+```json
+{
+  "@odata.context": "https://graph.microsoft.com/v1.0/$metadata#users",
+  "value": [
+    {
+      "businessPhones": [],
+      "displayName": "John Doe",
+      "givenName": "John",
+      "jobTitle": "Software Engineer",
+      "mail": "johndoe@example.com",
+      "mobilePhone": null,
+      "officeLocation": null,
+      "preferredLanguage": "en-US",
+      "surname": "Doe",
+      "userPrincipalName": "johndoe@example.com",
+      "id": "12345678-abcd-1234-abcd-1234567890ab"
+    }
+  ]
+}
+```
 
 ## Logging and Debugging
 
